@@ -1,0 +1,22 @@
+[
+    {
+        "name": "krew",
+        "units": "w litrach"
+    },
+    {
+        "name": "jedzenie",
+        "units": "w kilogramach"
+    },
+    {
+        "name": "szczepionki",
+        "units": ""
+    },
+    {
+        "name": "drewno",
+        "units": "w kilogramach"
+    },
+    {
+        "name": "woda",
+        "units": "w litrach"
+    }
+]
