@@ -1,4 +1,4 @@
-
+from util import *
 
 # Function to get user input for package dimensions and weight
 def get_user_input_for_package():
@@ -8,7 +8,11 @@ def get_user_input_for_package():
         height = float(input("Enter the height of the package in cm: "))
         weight = float(input("Enter the weight of the package in kg: "))
         time = float(input("Enter time within the package MUST be delivered in hours: "))
-        return (length, width, height), weight, time
+        x1 = float(input("Enter first coordinate of point A: "))
+        y1 = float(input("Enter second coordinate of point A: "))
+        x2 = float(input("Enter first coordinate of point B: "))
+        y2 = float(input("Enter second coordinate of point B: "))
+        return (length, width, height), weight, time, (x1, y1), (x2, y2)
     except ValueError:
         print("Invalid input! Please enter a numerical value.")
         return None, None
@@ -158,7 +162,14 @@ def calculate_transport_options(aid_package, specs=DEFAULT_VEHICLE_SPECS, roads=
 # The main function where the program starts
 def main():
     print('\n\n')
-    package_dimensions_cm, package_weight, criticalTime = get_user_input_for_package()
+    package_dimensions_cm, package_weight, criticalTime, A, B = get_user_input_for_package()
+    road1 = shortest_path( A, B )
+    road2 = truckAccesiblePath( A, B )
+    road3 = euklidesPath( A, B )
+    Road1 = Road( road1[0], road1[1], road1[2] )
+    Road2 = Road( road2[0], road2[1], road2[2] )
+    Road3 = Road( road2[0], road2[1], road2[2] )
+    my_roads = [ Road1, Road2, Road3 ]
 
     if package_dimensions_cm is None or package_weight is None:
         print("Invalid dimensions or weight entered. Exiting program.")
@@ -174,7 +185,7 @@ def main():
     )
 
     # Get all transport options for the user-defined package
-    transport_options = calculate_transport_options(aid_package, critical_time = criticalTime)
+    transport_options = calculate_transport_options(aid_package, roads = my_roads, roadcritical_time = criticalTime)
 
     s = ""
     for vehicle, option in transport_options.items():
@@ -184,6 +195,7 @@ def main():
         else:
             s += (f"{vehicle.title()} - Not available: {option}") + "@"
     print(s)
+    
 # Run the program
 if __name__ == "__main__":
     main()
