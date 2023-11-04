@@ -8,7 +8,6 @@ function TypeOfHelpSelector(props)
     const handleHelpSelection = (e) => {
         setTypeOfHelpName(e.target.value.split('&')[0]);
         setTypeOfHelpUnits(e.target.value.split('&')[1]);
-        //console.log(e.target.value.split('&'));
     };
     return  <div id="type_of_help_selector">
                 <select value={typeOfHelpName} onChange={handleHelpSelection}

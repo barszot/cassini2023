@@ -8,9 +8,7 @@ import help_types from './help_types.json'
 function App() {
   return (
     <>
-          <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
-      <script defer src="https://pyscript.net/latest/pyscript.js"></script>
-      <Content data={help_types}/>
+      <Content prop={help_types}/>
     </>
   )
 }
