@@ -6,7 +6,7 @@ function YOfCargoInput(props)
         setYOfCargo(e.target.value);
     };
     return <input type="number"
-                placeholder="Your fav number"
+                placeholder="Podaj szerokość (w cm)..."
                 value={yOfCargo}
                 onChange={handleInputYOfCargo}
                 name = "y_of_cargo_input"

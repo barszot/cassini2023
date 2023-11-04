@@ -1,11 +1,10 @@
 import { useState, useEffect} from 'react'
-import TypeOfHelpSelector from './TypeOfHelpSelector';
 import MassOfCargoInput from './MassOfCargoInput';
 import XOfCargoInput from './XOfCargoInput';
 import YOfCargoInput from './YOfCargoInput';
 import ZOfCargoInput from './ZOfCargoInput';
 import PyButton from './PyButton';
-
+import DeliveryTimeInput from './DeliveryTimeInput';
 const catfact_url = 
       "https://catfact.ninja/fact";
 
@@ -22,36 +21,45 @@ async function getapi(url, setFunc) {
 }
 // Calling that async function
 const helloURL="http://127.0.0.1:8000/hello"
-function Content({prop}){
-    const helpTypes = prop;
-    const [typeOfHelpName, setTypeOfHelpName] = useState('');
-    const [typeOfHelpUnits, setTypeOfHelpUnits] = useState('');
+function Content(){
     const [massOfCargo, setMassOfCargo] = useState(0);
     const [xOfCargo, setXOfCargo] =  useState(0);
     const [yOfCargo, setYOfCargo] =  useState(0);
     const [zOfCargo, setZOfCargo] =  useState(0);
-    const [deliveryTime, setDeliveryTime] = useState(0);
+    const [days, setDays] = useState(0);
+    const [hours, setHours] = useState(0);
+    const [minutes, setMinutes] = useState(0);
+    const [totalMinutes, setTotalMinutes] = useState(0);
+
     const [pyResponse, setPyResponse] = useState('');
 
     useEffect(()=>{
-        getapi(helloURL+"?"+"helptype="+typeOfHelpName
-        +"&mass="+String(massOfCargo)+"&x="+String(xOfCargo)
+        getapi(helloURL+"?"
+        +"mass="+String(massOfCargo)+"&x="+String(xOfCargo)
         +"&y="+String(yOfCargo)+"&z="+String(zOfCargo)
+        +"&minutes="+String(totalMinutes)
         , setPyResponse);
         console.log(pyResponse);
     }
-    , [massOfCargo, xOfCargo, yOfCargo, zOfCargo, typeOfHelpName]);
-
+    , [massOfCargo, xOfCargo, yOfCargo, zOfCargo, totalMinutes]);
+    useEffect(()=>
+    {
+        console.log(days, hours, minutes);
+        setTotalMinutes(parseInt(days, 10)*24*60+parseInt(hours, 10)*60+parseInt(minutes, 10));
+        console.log("TOTAL", totalMinutes);
+        
+    },[days, hours, minutes]);
     return <div id="content">
                 <p>CASSINI 2023</p>
                 <div className="div-1">
-                    <TypeOfHelpSelector typeOfHelpName={typeOfHelpName}
-                        setTypeOfHelpName={setTypeOfHelpName}
-                        typeOfHelpUnits={typeOfHelpUnits}
-                        setTypeOfHelpUnits={setTypeOfHelpUnits}
-                        data={helpTypes}
+                    <DeliveryTimeInput days={days}
+                        setDays = {setDays}
+                        hours={hours}
+                        setHours={setHours}
+                        minutes={minutes}
+                        setMinutes={setMinutes}
                     />
-                    <p>Wybrano: {typeOfHelpName}</p>
+                    <p>Czas w minutach: {totalMinutes}</p>
                 </div>
 
                 <div className="div-2">

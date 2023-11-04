@@ -6,7 +6,7 @@ function XOfCargoInput(props)
         setXOfCargo(e.target.value);
     };
     return <input type="number"
-                placeholder="Your fav number"
+                placeholder="Podaj długość (w cm)..."
                 value={xOfCargo}
                 onChange={handleInputXOfCargo}
                 name = "x_of_cargo_input"
