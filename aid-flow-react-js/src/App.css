@@ -111,12 +111,12 @@
 .logo2 {
   position: absolute;
   top: 37px; /* Odległość od górnego brzegu strony */
-  left: 15px; /* Odległość od lewego brzegu strony */
+  left: 5px; /* Odległość od lewego brzegu strony */
 }
 
 /* Stylowanie obrazu logo (dodaj odpowiednie wymiary, obramowanie itp.) */
 .logo2 img {
-  width: 200px; /* Dostosuj szerokość logo */
+  width: 190px; /* Dostosuj szerokość logo */
   height: auto; /* Pozwala zachować proporcje logo */
   border: 1px solid #000; /* Opcjonalne: dodaj obramowanie */
 }

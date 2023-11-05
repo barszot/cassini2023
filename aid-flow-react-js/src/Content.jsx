@@ -7,7 +7,8 @@ import PyButton from './PyButton';
 import DeliveryTimeInput from './DeliveryTimeInput';
 import VeichlesList from './VeichlesList';
 import CoordinatesSelector from './CoordinatesSelector';
-import logo from "./OIG.png";
+import logo from "./logo_good.png";
+import ImageButton from './ImageButton';
 const catfact_url = 
       "https://catfact.ninja/fact";
 
@@ -33,11 +34,11 @@ function Content(){
     const [hours, setHours] = useState(0);
     const [minutes, setMinutes] = useState(0);
     const [totalMinutes, setTotalMinutes] = useState(0);
-    const [x1,setX1] = useState(0);
-    const [y1,setY1] = useState(0);
-    const [x2,setX2] = useState(0);
-    const [y2,setY2] = useState(0);
-
+    const [x1,setX1] = useState(12.65125);
+    const [y1,setY1] = useState(-7.99589);
+    const [x2,setX2] = useState(12.6997);
+    const [y2,setY2] = useState(-8.0114);
+    const [imgNum, setImgNum] = useState(1);
     const [pyResponse, setPyResponse] = useState('');
     const PyButtonOnClick = () =>
     {
@@ -46,6 +47,8 @@ function Content(){
             +"mass="+String(massOfCargo)+"&x="+String(xOfCargo)
             +"&y="+String(yOfCargo)+"&z="+String(zOfCargo)
             +"&minutes="+String(totalMinutes)
+            +"&x1="+String(x1)+"&y1="+String(y1)
+            +"&x2="+String(x2)+"&y2="+String(y2)
             , setPyResponse);
         }
         else{
@@ -76,6 +79,7 @@ function Content(){
                 <div class="logo2">
                     <img src={logo}/>
                 </div>
+                <ImageButton imgNum={imgNum} setImgNum={setImgNum}/>
                 <div className='cors-select'>
                     <h1>Insert the coordinates here:</h1>
                 <CoordinatesSelector x1={x1} setX1={setX1}
