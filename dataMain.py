@@ -1,8 +1,8 @@
 from copernicus import *
 
 # Example variables
-desired_latitude = 13.62
-desired_longitude = 25.96
+desired_latitude = 1.05
+desired_longitude = 13.31
 
 # Loading the entire temperature, u-wind, v-wind, rain/snow data and determining their values
 # u-wind -> east-west component of wind | v-wind -> north-south component of wind
@@ -16,4 +16,4 @@ print(f"Position: {desired_latitude} | {desired_longitude}")
 print(f"Temperature: {tempValue}")  # [celsius]
 print(f"U-Wind: {uWindValue}")  # [m/s]
 print(f"V-Wind: {vWindValue}")  # [m/s]
-print(f"Rain/snow: {rainValue}")  # [meters]
+print(f"Rain/snow: {rainValue*1000}")  # [meters]

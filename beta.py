@@ -1,3 +1,4 @@
+from copernicus import *
 from util import *
 
 # Function to get user input for package dimensions and weight
@@ -8,10 +9,10 @@ def get_user_input_for_package():
         height = float(input("Enter the height of the package in cm: "))
         weight = float(input("Enter the weight of the package in kg: "))
         time = float(input("Enter time within the package MUST be delivered in hours: "))
-        x1 = float(input("Enter first coordinate of point A: "))
-        y1 = float(input("Enter second coordinate of point A: "))
-        x2 = float(input("Enter first coordinate of point B: "))
-        y2 = float(input("Enter second coordinate of point B: "))
+        x1 = 10.5354
+        y1 = 14.1675
+        x2 = 10.5915
+        y2 = 14.3130
         return (length, width, height), weight, time, (x1, y1), (x2, y2)
     except ValueError:
         print("Invalid input! Please enter a numerical value.")
@@ -40,30 +41,40 @@ DEFAULT_VEHICLE_SPECS = {
         'speed': 80,
         'max_weight': 200,
         'max_dimensions': (100, 100, 75),
+        'max_rain': 20,
+        'max_wind': 10,
         'average_fuel_consumption': 6.5
     },
     'truck': {
         'speed': 60,
         'max_weight': 20000,
         'max_dimensions': (1360, 245, 260),
+        'max_rain': 20,
+        'max_wind': 10,
         'average_fuel_consumption': 30.0
     },
     'drone': {
         'speed': 100,
         'max_weight': 5,
         'max_dimensions': (60, 60, 30),
+        'max_rain': 1.5,
+        'max_wind': 5,
         'energy_cost_per_km': 0.05
     },
     'van': {
         'speed': 90,
         'max_weight': 1200,
         'max_dimensions': (240, 170, 140),
+        'max_rain': 20,
+        'max_wind': 10,
         'average_fuel_consumption': 10.0
     },
     'helicopter': {
         'speed': 250, 
         'max_weight': 1000,  
-        'max_dimensions': (300, 120, 150),  
+        'max_dimensions': (300, 120, 150),
+        'max_rain': 8,
+        'max_wind': 10,
         'average_fuel_consumption': 100,  
     },
     'gas_price': 1.50  # Average price of fuel per liter
@@ -115,7 +126,7 @@ class HumanitarianAid:
         return all(p <= v for p, v in zip(package_sorted, vehicle_sorted))
 
     # Method to get transport options based on the roads and vehicle specs
-    def get_all_transport_options(self, specs, roads, criticalTime ):
+    def get_all_transport_options(self, specs, roads, criticalTime ,wind, rain):
         transport_options = {}
         for vehicle in specs:
             if vehicle == 'gas_price':
@@ -124,9 +135,20 @@ class HumanitarianAid:
             max_dimensions = specs[vehicle]['max_dimensions']
             max_weight = specs[vehicle]['max_weight']
 
+            max_wind = specs[vehicle]['max_wind']
+            max_rain = specs[vehicle]['max_rain']
+
             # Check if the aid package is too heavy for the vehicle
             if self.weight > max_weight:
                 transport_options[vehicle] = f"Package too heavy for {vehicle}. Max weight: {max_weight} kg"
+                continue
+
+            if wind > max_wind:
+                transport_options[vehicle] = f"Wind is too strong for {vehicle}. Max value is: {max_wind} m/s"
+                continue
+
+            if rain > max_rain:
+                transport_options[vehicle] = f"Rain is too much for {vehicle}. Max value is: {max_rain} m."
                 continue
 
             # Check if the aid package can fit in the vehicle
@@ -134,6 +156,7 @@ class HumanitarianAid:
                 max_dimensions_str = " x ".join(map(str, max_dimensions))
                 transport_options[vehicle] = f"Package too large for {vehicle}. Max dimensions: {max_dimensions_str} cm"
                 continue
+
 
             # Determine if a suitable road is available
             suitable_road = next((road for road in roads if (
@@ -156,8 +179,8 @@ class HumanitarianAid:
         return transport_options
 
 # Function to calculate transport options for a given aid package
-def calculate_transport_options(aid_package, specs=DEFAULT_VEHICLE_SPECS, roads=DEFAULT_ROADS, critical_time = float('inf') ):
-    return aid_package.get_all_transport_options(specs, roads, critical_time )
+def calculate_transport_options(aid_package, specs=DEFAULT_VEHICLE_SPECS, roads=DEFAULT_ROADS, critical_time = float('inf'), wind=0, rain=0. ):
+    return aid_package.get_all_transport_options(specs, roads, critical_time , wind, rain)
 
 # The main function where the program starts
 def main():
@@ -168,8 +191,16 @@ def main():
     road3 = euklidesPath( A, B )
     Road1 = Road( road1[0], road1[1], road1[2] )
     Road2 = Road( road2[0], road2[1], road2[2] )
-    Road3 = Road( road2[0], road2[1], road2[2] )
+    Road3 = Road( road3[0], road3[1], road3[2] )
     my_roads = [ Road1, Road2, Road3 ]
+
+    temperatureData, uwindData, vwindData, rainData, lat, lon = load_copernicus_data('copernicusData.nc')
+    tempValue = get_temperature(A[0], A[1], temperatureData, lat, lon)
+    uWindValue = get_uwind(A[0], A[1], uwindData, lat, lon)
+    vWindValue = get_vwind(A[0], A[1], vwindData, lat, lon)
+    rainValue = get_rain(A[0], A[1], rainData, lat, lon)
+
+    windspeed = (uWindValue**2 + vWindValue**2)**(1/2)
 
     if package_dimensions_cm is None or package_weight is None:
         print("Invalid dimensions or weight entered. Exiting program.")
@@ -185,7 +216,7 @@ def main():
     )
 
     # Get all transport options for the user-defined package
-    transport_options = calculate_transport_options(aid_package, roads = my_roads, roadcritical_time = criticalTime)
+    transport_options = calculate_transport_options(aid_package, roads = my_roads, critical_time = criticalTime, wind = windspeed, rain = rainValue)
 
     s = ""
     for vehicle, option in transport_options.items():
