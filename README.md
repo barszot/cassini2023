@@ -6,9 +6,7 @@ Our mission is clear: to develop a resource allocation system for crisis-stricke
 **Understanding and forecasting forced migration**
 
 ### Usage example
-<video width="854" height="480" controls>
-  <source src="video.mp4" type="video/mp4">
-</video>
+[![Video Title](https://img.youtube.com/vi/ZF1upmcwR_U/0.jpg)](https://www.youtube.com/watch?v=ZF1upmcwR_U)
 
 ### Data sources
 * OpenStreetMap
