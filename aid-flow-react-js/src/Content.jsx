@@ -5,6 +5,9 @@ import YOfCargoInput from './YOfCargoInput';
 import ZOfCargoInput from './ZOfCargoInput';
 import PyButton from './PyButton';
 import DeliveryTimeInput from './DeliveryTimeInput';
+import VeichlesList from './VeichlesList';
+import CoordinatesSelector from './CoordinatesSelector';
+import logo from "./OIG.png";
 const catfact_url = 
       "https://catfact.ninja/fact";
 
@@ -30,28 +33,57 @@ function Content(){
     const [hours, setHours] = useState(0);
     const [minutes, setMinutes] = useState(0);
     const [totalMinutes, setTotalMinutes] = useState(0);
+    const [x1,setX1] = useState(0);
+    const [y1,setY1] = useState(0);
+    const [x2,setX2] = useState(0);
+    const [y2,setY2] = useState(0);
 
     const [pyResponse, setPyResponse] = useState('');
-
-    useEffect(()=>{
-        getapi(helloURL+"?"
-        +"mass="+String(massOfCargo)+"&x="+String(xOfCargo)
-        +"&y="+String(yOfCargo)+"&z="+String(zOfCargo)
-        +"&minutes="+String(totalMinutes)
-        , setPyResponse);
-        console.log(pyResponse);
+    const PyButtonOnClick = () =>
+    {
+        if(xOfCargo>0 & (yOfCargo>0 & (zOfCargo>0 &(massOfCargo>0 &(totalMinutes>0))))){
+            getapi(helloURL+"?"
+            +"mass="+String(massOfCargo)+"&x="+String(xOfCargo)
+            +"&y="+String(yOfCargo)+"&z="+String(zOfCargo)
+            +"&minutes="+String(totalMinutes)
+            , setPyResponse);
+        }
+        else{
+            alert("None of the provided dimensions, weight, or the total time can be equal to zero or negative!")
+        }
     }
-    , [massOfCargo, xOfCargo, yOfCargo, zOfCargo, totalMinutes]);
     useEffect(()=>
     {
         console.log(days, hours, minutes);
-        setTotalMinutes(parseInt(days, 10)*24*60+parseInt(hours, 10)*60+parseInt(minutes, 10));
+        let newDays = days;
+        let newHours=hours;
+        let newMinutes=minutes;
+        if(newDays!==0 & !newDays){
+            newDays=0;
+        }
+        if(newHours!==0 & !newHours){
+            newHours=0;
+        }
+        if(newMinutes!==0 & !newMinutes){
+            newMinutes=0;
+        }
+        setTotalMinutes(parseInt(newDays, 10)*24*60+parseInt(newHours, 10)*60+parseInt(newMinutes, 10));
         console.log("TOTAL", totalMinutes);
         
     },[days, hours, minutes]);
     return <div id="content">
-                <p>CASSINI 2023</p>
-                <div className="div-1">
+
+                <div class="logo2">
+                    <img src={logo}/>
+                </div>
+                <div className='cors-select'>
+                    <h1>Insert the coordinates here:</h1>
+                <CoordinatesSelector x1={x1} setX1={setX1}
+                y1={y1} setY1={setY1} x2 = {x2} setX2={setX2}
+                y2={y2} setY2={setY2}/>
+                </div>
+                <div className="t-select">
+                    <h1>Insert the critical time here:</h1>
                     <DeliveryTimeInput days={days}
                         setDays = {setDays}
                         hours={hours}
@@ -59,35 +91,38 @@ function Content(){
                         minutes={minutes}
                         setMinutes={setMinutes}
                     />
-                    <p>Czas w minutach: {totalMinutes}</p>
+                    <h2>Total time (in hours): {parseFloat(totalMinutes/60).toFixed(2)}h</h2>
                 </div>
 
-                <div className="div-2">
-                    <p>Podaj długość (w cm)</p>
-                    <XOfCargoInput xOfCargo={xOfCargo}
-                    setXOfCargo={setXOfCargo}/>
-                    <p>Wybrana długość = {xOfCargo} cm</p>
-                    
-                    <p>Podaj szerokość (w cm)</p>
-                    <YOfCargoInput yOfCargo={yOfCargo}
-                    setYOfCargo={setYOfCargo}/>
-                    <p>Wybrana szerokość = {yOfCargo} cm</p>
-                    
-                    <p>Podaj wysokość (w cm)</p>
-                    <ZOfCargoInput zOfCargo={zOfCargo}
-                    setZOfCargo={setZOfCargo}/>
-                    <p>Wybrana wysokość = {yOfCargo} cm</p>
+                <div className="dim-select">
+                    <h2>Insert mass and dimensions of package here:</h2>
+                    <div className='flex-container'>
+                        <div className='time-item'>
+                        <p>Mass (in kg)</p>
+                        <MassOfCargoInput massOfCargo={massOfCargo}
+                        setMassOfCargo = {setMassOfCargo}/>
+                        </div>
+                        <div className='time-item'>
+                        <p>Lenght (in cm)</p>
+                        <XOfCargoInput xOfCargo={xOfCargo}
+                        setXOfCargo={setXOfCargo}/>
+                        </div>
+                        <div className='time-item'>
+                        <p>Width (in cm)</p>
+                        <YOfCargoInput yOfCargo={yOfCargo}
+                        setYOfCargo={setYOfCargo}/>
+                        </div>
+                        <div className='time-item'>
+                        <p>Height (in cm)</p>
+                        <ZOfCargoInput zOfCargo={zOfCargo}
+                        setZOfCargo={setZOfCargo}/>
+                        </div>
+                    </div>
 
-                    <p>Podaj masę (w kilogramach)</p>
-                    <MassOfCargoInput massOfCargo={massOfCargo}
-                    setMassOfCargo = {setMassOfCargo}/>
-                    <p>Wybrana masa = {massOfCargo} kg</p>
 
                 </div>                
-                <PyButton/>
-                <p>
-                {pyResponse}
-                </p>
+                <PyButton handleClick={PyButtonOnClick}/>
+                <VeichlesList text={pyResponse}/>
             </div>
 }
 

@@ -6,7 +6,7 @@ function ZOfCargoInput(props)
         setZOfCargo(e.target.value);
     };
     return <input type="number"
-                placeholder="Podaj wysokość (w cm)..."
+                placeholder="Height (cm)..."
                 value={zOfCargo}
                 onChange={handleInputZOfCargo}
                 name = "z_of_cargo_input"

@@ -6,7 +6,7 @@ function MassOfCargoInput(props)
         setMassOfCargo(e.target.value);
     };
     return <input type="number"
-                placeholder="Podaj masę (w kg)..."
+                placeholder="Mass (kg)..."
                 value={massOfCargo}
                 onChange={handleInputMassOfCargo}
                 name = "mass_of_cargo_input"

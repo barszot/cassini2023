@@ -15,29 +15,35 @@ function DeliveryTimeInput(props)
     const handleInputMinutes = (e) =>{
         setMinutes(e.target.value);
     };
-    return <div>
+    return <div className="flex-container">
+            <div className="time-item">
+            <p>Days</p>
             <input type="number"
-                placeholder="Liczba dni..."
+                placeholder="Days..."
                 value={days}
                 onChange={handleInputDays}
                 name = "days_input"
             />
-            <p>dni, </p>
+
+            </div>
+            <div className="time-item">
+            <p>Hours</p>
             <input type="number"
-                placeholder="Liczba godzin..."
+                placeholder="Hours..."
                 value={hours}
                 onChange={handleInputHours}
                 name = "hours_input"
             />
-            <p>godzin, </p>
-
+            </div>
+            <div className="time-item">
+            <p>Minutes</p>
             <input type="number"
-                placeholder="Liczba minut..."
+                placeholder="Minutes..."
                 value={minutes}
                 onChange={handleInputMinutes}
                 name = "minutes_input"
             />
-            <p>minut</p>
+            </div>
             </div>
 }
 

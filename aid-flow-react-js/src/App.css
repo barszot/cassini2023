@@ -41,10 +41,88 @@
   color: #888;
 }
 
-.div-1{
-  background-color: yellow;
+
+
+
+
+.flex-container {
+  display: flex; /* Włącza flexbox */
+  justify-content: space-between;
+}
+.time-item{
+  padding: 2px;
+  margin: 5px;
+  background-color: gainsboro;
+
+}
+.map-point{
+  padding: 5px;
+  margin: 5px;
+  background-color: greenyellow;
+
+}
+.cors-select{
+  padding: 5px;
+  background-color: lightseagreen;
+  margin: 5px;
 }
 
-.div-2{
-  background-color: rgb(173, 181, 183);
+.t-select{
+  background-color: gold;
+
+  padding: 5px;
+  margin: 5px;
+}  
+
+
+.dim-select{
+  background-color: rgb(112, 122, 124);
+  
+  padding: 5px;
+  margin: 5px;
+}
+/* Style podstawowe */
+.wielki-przycisk {
+  background-color: rgb(34, 146, 150);
+  color: #fff;
+  padding: 15px 30px;
+  font-size: 32px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s; /* Efekt przejścia (zmiana koloru) */
+}
+
+/* Efekt hover - zmiana koloru po najechaniu myszką */
+.wielki-przycisk:hover {
+  background-color: #4c4c4c;
+}
+
+/* Efekt active - zmiana koloru po kliknięciu */
+.wielki-przycisk:active {
+  background-color: rgb(255, 0, 0);
+}
+
+.gap{
+  padding: 5px;
+  margin: 10px;
+}
+
+/* Style dla logo w rogu */
+.logo2 {
+  position: absolute;
+  top: 37px; /* Odległość od górnego brzegu strony */
+  left: 15px; /* Odległość od lewego brzegu strony */
+}
+
+/* Stylowanie obrazu logo (dodaj odpowiednie wymiary, obramowanie itp.) */
+.logo2 img {
+  width: 200px; /* Dostosuj szerokość logo */
+  height: auto; /* Pozwala zachować proporcje logo */
+  border: 1px solid #000; /* Opcjonalne: dodaj obramowanie */
+}
+
+/* Dla całej strony */
+body {
+  background-image: url('earth2.jpg'); /* Podaj ścieżkę do obrazka */
+  background-size: cover; /* Dopasuj rozmiar tła do okna przeglądarki */
 }
