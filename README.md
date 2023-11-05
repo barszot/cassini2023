@@ -5,6 +5,11 @@ Our mission is clear: to develop a resource allocation system for crisis-stricke
 ### Challenge #3
 **Understanding and forecasting forced migration**
 
+### Usage example
+<video width="854" height="480" controls>
+  <source src="video.mp4" type="video/mp4">
+</video>
+
 ### Data sources
 * OpenStreetMap
 * Copernicus
